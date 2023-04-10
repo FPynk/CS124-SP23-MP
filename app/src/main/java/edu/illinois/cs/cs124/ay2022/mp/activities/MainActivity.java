@@ -221,12 +221,12 @@ public final class MainActivity extends AppCompatActivity
 
   // MP 1 Search
   @Override
-  public boolean onQueryTextSubmit(String query) {
+  public boolean onQueryTextSubmit(final String query) {
     return false;
   }
   // MP 1 Search
   @Override
-  public boolean onQueryTextChange(String text) {
+  public boolean onQueryTextChange(final String text) {
     Log.d(TAG, "OnQueryTextChange " + text);
     //favoritePlacesApplication.getClient().getPlaces(this);
     //System.out.println(allPlaces);
