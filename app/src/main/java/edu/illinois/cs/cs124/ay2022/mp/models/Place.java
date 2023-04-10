@@ -1,5 +1,7 @@
 package edu.illinois.cs.cs124.ay2022.mp.models;
 
+import java.util.List;
+import java.util.ArrayList;
 /*
  * Model storing information about a place retrieved from the backend server.
  *
@@ -28,6 +30,29 @@ public final class Place {
 
   // ID of the place
   private String id;
+
+  // MP1 Search
+  public static List<Place> search(final List<Place> places, final String searchInput) {
+    if (places == null || searchInput == null) {
+      throw new IllegalArgumentException();
+    } else if (places.size() == 0 || searchInput.trim().length() == 0) {
+      return places;
+    }
+    List<Place> output = new ArrayList<>();
+    String search = " " + searchInput.trim().toLowerCase() + " ";
+    for (Place p : places) {
+      // process description
+      String desc = p.getDescription().toLowerCase();
+      desc = desc.replaceAll("[.!?,:;/]", " ");
+      desc = " " + desc.replaceAll("[^a-zA-Z0-9 ]", "") + " ";
+      if (desc.contains(search)) {
+        //System.out.println(desc + "\n and the search is: " + search + "\n result is " + desc.contains(search));
+        output.add(p);
+      }
+    }
+    //assert false : "TO DO";
+    return output;
+  }
 
   public String getId() {
     return id;

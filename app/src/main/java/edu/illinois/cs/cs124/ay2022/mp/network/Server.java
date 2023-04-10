@@ -120,7 +120,7 @@ public final class Server extends Dispatcher {
   /*
    * Load place information from a CSV file and create a List<Place>.
    * You will need to examine and modify this code for MP1.
-   */
+   */ // MP 1 Search
   public static List<Place> loadPlaces() throws JsonProcessingException {
     // An unfortunate bit of code required to read an entire stream into a `String`
     String input =
@@ -137,7 +137,7 @@ public final class Server extends Dispatcher {
     for (String[] parts : csvReader) {
       toReturn.add(
           new Place(
-              parts[0], parts[1], Double.parseDouble(parts[2]), Double.parseDouble(parts[3]), ""));
+              parts[0], parts[1], Double.parseDouble(parts[2]), Double.parseDouble(parts[3]), parts[4]));
     }
     return toReturn;
   }
