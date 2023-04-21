@@ -17,7 +17,6 @@ import java.util.Objects;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.UUID;
 import java.util.regex.Pattern;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -78,7 +77,8 @@ public final class Server extends Dispatcher {
     try {
       // Take some care with lat and lon, set it to some invalid value before JSON edits it
       // then check if JSON has edited it correctly
-      Pattern uuidPattern = Pattern.compile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$");
+      Pattern uuidPattern = Pattern.compile(
+          "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$");
       Place place = OBJECT_MAPPER.readValue(request.getBody().readUtf8(), new TypeReference<>() {});
 
       // Check the resulting Place object to make sure it's valid: id name desc present and not empty

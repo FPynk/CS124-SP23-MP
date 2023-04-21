@@ -186,7 +186,7 @@ public final class MP2Test {
           .that(invalidResponse3.code())
           .isEqualTo(HttpURLConnection.HTTP_BAD_REQUEST);
 
-      //Test bad requests
+      // Test bad requests
       testServerFavoritePlacePostHelper(
           null,
           "Xyz Challen",
