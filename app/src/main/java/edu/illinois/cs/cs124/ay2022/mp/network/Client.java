@@ -24,6 +24,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
@@ -93,6 +94,51 @@ public final class Client {
     requestQueue.add(getPlacesRequest);
   }
 
+  public void postFavoritePlace(final Place place, final Consumer<ResultMightThrow<Boolean>> callback) {
+    StringRequest postFavouritePlaceRequest =
+        new StringRequest(
+            Request.Method.POST,
+            FavoritePlacesApplication.SERVER_URL + "/favoriteplace/",
+            response -> {
+              // This code runs on success
+              try {
+                //Change to serialise instead of deserialize
+                String postJSON = OBJECT_MAPPER.writeValueAsString(place);
+                // Pass the List<Place> to the callback
+                callback.accept(new ResultMightThrow(true));
+              } catch (JsonProcessingException error) {
+                // Pass the Exception to the callback on error
+                callback.accept(new ResultMightThrow<>(error));
+              }
+            },
+            error -> {
+              // This code runs on failure
+              // Pass the Exception to the callback on error
+              callback.accept(new ResultMightThrow<>(error));
+            }) {
+          @Override
+          public byte[] getBody() {
+            String postJSON;
+            try {
+              postJSON = OBJECT_MAPPER.writeValueAsString(place);
+            } catch (JsonProcessingException error) {
+              throw new IllegalStateException();
+            }
+            return postJSON.getBytes(StandardCharsets.UTF_8);
+            //takes string bytes and coverts to bytes using UTF 8 standard
+            // Pass place string body here
+          }
+
+          @Override
+          public String getBodyContentType() {
+            return "application/json; charset=utf-8";
+          }
+        };
+    // Actually queue the request
+    // The callbacks above will be run once it completes
+    Log.d("postPlace", "postPlaceActivity.java request added to queue: " + postFavouritePlaceRequest);
+    requestQueue.add(postFavouritePlaceRequest);
+  }
   /*
    * You do not need to modify the code below.
    * However, you may want to understand how it works.

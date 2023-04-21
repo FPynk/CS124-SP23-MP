@@ -1,5 +1,6 @@
 package edu.illinois.cs.cs124.ay2022.mp.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,10 +12,12 @@ import edu.illinois.cs.cs124.ay2022.mp.models.ResultMightThrow;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import org.osmdroid.events.MapEventsReceiver;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Overlay;
 
@@ -29,7 +32,7 @@ import org.osmdroid.views.overlay.Overlay;
  */
 @SuppressWarnings("FieldCanBeLocal")
 public final class MainActivity extends AppCompatActivity
-    implements Consumer<ResultMightThrow<List<Place>>>, SearchView.OnQueryTextListener {
+    implements Consumer<ResultMightThrow<List<Place>>>, SearchView.OnQueryTextListener, MapEventsReceiver {
   // You may find this useful when adding logging
   private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -215,6 +218,8 @@ public final class MainActivity extends AppCompatActivity
     // This will clear openPlace if the marker that was previously shown is no longer open
     openPlace = newOpenPlace;
 
+    mapView.getOverlays().add(new MapEventsOverlay(this));
+
     // Force the MapView to redraw so that we see the updated list of markers
     mapView.invalidate();
   }
@@ -241,4 +246,23 @@ public final class MainActivity extends AppCompatActivity
 //    Log.d(TAG, "No of Places are: " + searchedPlaces.size());
     return true;
   }
+
+
+  @Override
+  public boolean singleTapConfirmedHelper(final GeoPoint p) {
+    Log.d(TAG, "Single tap: " + p.getLatitude() + ", " + p.getLongitude());
+    return false;
+  }
+
+  @Override
+  public boolean longPressHelper(final GeoPoint p) {
+    Log.d(TAG, "Long Press");
+    Intent launchAddFavouritePlace = new Intent(this, AddPlaceActivity.class);
+    launchAddFavouritePlace.putExtra("latitude", Double.toString(p.getLatitude()));
+    launchAddFavouritePlace.putExtra("longitude", Double.toString(p.getLongitude()));
+    //System.out.println(launchAddFavouritePlace.getExtras());
+    startActivity(launchAddFavouritePlace);
+    return false;
+  }
+
 }
