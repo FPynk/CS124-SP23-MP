@@ -186,39 +186,39 @@ public final class MP2Test {
           .that(invalidResponse3.code())
           .isEqualTo(HttpURLConnection.HTTP_BAD_REQUEST);
 
-      // Test bad requests
-//      testServerFavoritePlacePostHelper(
-//          null,
-//          "Xyz Challen",
-//          88.8,
-//          -88.8,
-//          "Cat tent",
-//          HttpURLConnection.HTTP_BAD_REQUEST,
-//          PLACES_COUNT);
-//      testServerFavoritePlacePostHelper(
-//          "461f346d-963g-438b-9249-279eb925bfac",
-//          "Xyz Challen",
-//          88.8,
-//          -88.8,
-//          "Cat tent",
-//          HttpURLConnection.HTTP_BAD_REQUEST,
-//          PLACES_COUNT);
-//      testServerFavoritePlacePostHelper(
-//          "meow",
-//          "Xyz Challen",
-//          88.8,
-//          -88.8,
-//          "Cat run",
-//          HttpURLConnection.HTTP_BAD_REQUEST,
-//          PLACES_COUNT);
-//      testServerFavoritePlacePostHelper(
-//          UUID.randomUUID().toString(),
-//          null,
-//          88.8,
-//          -88.8,
-//          "Cat tent",
-//          HttpURLConnection.HTTP_BAD_REQUEST,
-//          PLACES_COUNT);
+       //Test bad requests
+      testServerFavoritePlacePostHelper(
+          null,
+          "Xyz Challen",
+          88.8,
+          -88.8,
+          "Cat tent",
+          HttpURLConnection.HTTP_BAD_REQUEST,
+          PLACES_COUNT);
+      testServerFavoritePlacePostHelper(
+          "461f346d-963g-438b-9249-279eb925bfac",
+          "Xyz Challen",
+          88.8,
+          -88.8,
+          "Cat tent",
+          HttpURLConnection.HTTP_BAD_REQUEST,
+          PLACES_COUNT);
+      testServerFavoritePlacePostHelper(
+          "meow",
+          "Xyz Challen",
+          88.8,
+          -88.8,
+          "Cat run",
+          HttpURLConnection.HTTP_BAD_REQUEST,
+          PLACES_COUNT);
+      testServerFavoritePlacePostHelper(
+          UUID.randomUUID().toString(),
+          null,
+          88.8,
+          -88.8,
+          "Cat tent",
+          HttpURLConnection.HTTP_BAD_REQUEST,
+          PLACES_COUNT);
       testServerFavoritePlacePostHelper(
           UUID.randomUUID().toString(),
           "Xyz Challen",
