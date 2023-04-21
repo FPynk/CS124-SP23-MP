@@ -17,6 +17,8 @@ import java.util.Objects;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.UUID;
+import java.util.regex.Pattern;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -76,12 +78,15 @@ public final class Server extends Dispatcher {
     try {
       // Take some care with lat and lon, set it to some invalid value before JSON edits it
       // then check if JSON has edited it correctly
+      Pattern uuidPattern = Pattern.compile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$");
       Place place = OBJECT_MAPPER.readValue(request.getBody().readUtf8(), new TypeReference<>() {});
-      // Check the resulting Place object to make sure its valid: id name desc present and not empty
+
+      // Check the resulting Place object to make sure it's valid: id name desc present and not empty
       // Check fields for empty or null
-      if (place.getId() == null || place.getId().length() != 36
+      if (place.getId() == null || !uuidPattern.matcher(place.getId()).matches()
           || place.getName() == null || place.getName().length() == 0
           || place.getDescription() == null || place.getDescription().length() == 0
+          || Double.isNaN(place.getLatitude()) || Double.isNaN(place.getLongitude())
           || Math.abs(place.getLatitude()) > 90.0 || Math.abs(place.getLongitude()) > 180.0
       ) {
         throw new IllegalArgumentException();
